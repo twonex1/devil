@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>devil tweNty</title>
+
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    min-height:100vh;
+    background:#000;
+    font-family:sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* 🔊 BOTÃO SOM (ZY0 STYLE) */
+.volume-container{
+    position:fixed;
+    top:18px;
+    left:18px;
+    z-index:999;
+}
+
+.volume-btn{
+    cursor:pointer;
+    opacity:.8;
+    transition:.2s;
+}
+
+.volume-btn:hover{
+    opacity:1;
+    transform:scale(1.15);
+}
+
+.volume-btn svg{
+    width:22px;
+    height:22px;
+}
+
+/* 🎵 CARD MÚSICA */
+.music-card{
+    position: fixed;
+    top: 55px;
+    left: 18px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 8px 12px;
+    border-radius: 14px;
+
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+
+    z-index: 999;
+    transition: 0.3s;
+}
+
+.music-card:hover{
+    transform: translateY(-3px) scale(1.02);
+}
+
+.music-cover{
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    object-fit:cover;
+}
+
+.music-info{
+    display:flex;
+    flex-direction:column;
+    max-width:140px;
+}
+
+.music-title{
+    color:#fff;
+    font-size:13px;
+    font-weight:600;
+}
+
+.music-artist{
+    color:#ccc;
+    font-size:11px;
+}
+
+/* CRÉDITOS */
+.credits{
+    position:fixed;
+    top:18px;
+    right:18px;
+}
+
+.credits a{
+    color:#ff0000;
+    text-decoration:none;
+    opacity:.7;
+    transition:.3s;
+}
+
+.credits a:hover{
+    opacity:1;
+}
+
+/* 🧊 CARD PRINCIPAL */
+.profile-card{
+    width:90%;
+    max-width:400px;
+    border-radius:14px;
+
+    background: rgba(255,255,255,0.02);
+
+    box-shadow:
+        0 15px 50px rgba(0,0,0,0.9),
+        0 0 20px rgba(255,255,255,0.03);
+
+    transform-style: preserve-3d;
+}
+
+.profile-inner{
+    padding:25px;
+    text-align:center;
+}
+
+.avatar{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.1);
+}
+
+.name{
+    color:#fff;
+    font-size:24px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.bio{
+    color:#000000;
+    margin:10px 0;
+}
+
+/* SOCIAL */
+.social-icons ul{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    list-style:none;
+    margin-top:12px;
+}
+
+.social-icons img{
+    width:24px;
+    transition:.3s;
+}
+
+.social-icons img:hover{
+    transform:scale(1.2);
+}
+
+/* VIEWS */
+.views-content{
+    font-size:12.5px;
+    font-weight:bold;
+    margin-top:15px;
+    width:21px;
+    color:#ffffff;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop preload="auto">
+<source src="Playboi Carti - ILoveUIHateU.mp3" type="audio/mpeg">
+</audio>
+
+<div class="volume-container">
+<div id="volumeBtn" class="volume-btn"></div>
+</div>
+
+<div class="music-card">
+<img src="ILoveUIHateU cover.jpg" class="music-cover">
+
+<div class="music-info">
+<span class="music-title">ILoveUIHateU</span>
+<span class="music-artist">Playboi Carti</span>
+</div>
+</div>
+
+<div class="credits">
+<a href="#">愛</a>
+</div>
+
+<div class="profile-card" id="card">
+<div class="profile-inner">
+
+<img src="https://i.pinimg.com/736x/ac/ae/4f/acae4fe7ab266c3f654883cf8274bd2a.jpg" class="avatar">
+
+<div class="name">twenty</div>
+<p class="bio">devil</p>
+
+<div class="social-icons">
+<ul>
+<li><a href="https://discord.gg/7QZn57GvgN" target="_blank">
+<img src="https://ext.same-assets.com/1173006484/3083088712.png">
+</a></li>
+
+<li><a href="https://www.tiktok.com/@twentyonex1" target="_blank">
+<img src="https://ext.same-assets.com/1173006484/963775605.png">
+</a></li>
+
+<li><a href="https://open.spotify.com/user/31xi64wsglvb25novopbtu5ocree" target="_blank">
+<img src="https://logospng.org/download/spotify/logo-spotify-icon-512.png">
+</a></li>
+</ul>
+</div>
+
+<div class="views-content">
+<i class="bx bx-show"></i>
+<strong id="viewCount"></strong>
+</div>
+
+</div>
+</div>
+
+<script>
+const music = document.getElementById('bgMusic');
+const volumeBtn = document.getElementById('volumeBtn');
+let playing = false;
+
+/* 🔴 ICONES VERMELHOS */
+const iconOn = `<svg viewBox="0 0 24 24" fill="none" stroke="red">
+<path stroke-width="1.5" d="M5 9v6h4l5 5V4L9 9H5z"/>
+<path stroke-width="1.5" d="M16 8a4 4 0 010 8"/>
+</svg>`;
+
+const iconOff = `<svg viewBox="0 0 24 24" fill="none" stroke="red">
+<path stroke-width="1.5" d="M5 9v6h4l5 5V4L9 9H5z"/>
+<line x1="16" y1="8" x2="22" y2="14" stroke-width="1.5"/>
+<line x1="22" y1="8" x2="16" y2="14" stroke-width="1.5"/>
+</svg>`;
+
+volumeBtn.innerHTML = iconOff;
+
+/* ⏱ COMEÇA EM 00:27 */
+window.addEventListener('load', ()=>{
+    music.currentTime = 27;
+    music.play().then(()=>{
+        fadeIn(music);
+        volumeBtn.innerHTML = iconOn;
+        playing = true;
+    }).catch(()=>{});
+});
+
+function fadeIn(audio){
+    audio.volume = 0;
+    let v = 0;
+    const i = setInterval(()=>{
+        if(v < 0.6){
+            v += 0.08;
+            audio.volume = v;
+        } else clearInterval(i);
+    },60);
+}
+
+volumeBtn.addEventListener('click', ()=>{
+    if(playing){
+        music.pause();
+        volumeBtn.innerHTML = iconOff;
+    }else{
+        music.currentTime = 27;
+        music.play();
+        fadeIn(music);
+        volumeBtn.innerHTML = iconOn;
+    }
+    playing = !playing;
+});
+
+/* VIEWS */
+let views = localStorage.getItem('views') || 0;
+views++;
+localStorage.setItem('views', views);
+document.getElementById('viewCount').innerText = views;
+
+/* CARD */
+const card = document.getElementById('card');
+
+let currentX = 0;
+let currentY = 0;
+let targetX = 0;
+let targetY = 0;
+
+card.addEventListener('mousemove', e=>{
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left)/rect.width - 0.5;
+    const y = (e.clientY - rect.top)/rect.height - 0.5;
+
+    targetX = x * 20;
+    targetY = y * 20;
+});
+
+card.addEventListener('mouseleave', ()=>{
+    targetX = 0;
+    targetY = 0;
+});
+
+function animate(){
+    currentX += (targetX - currentX) * 0.15;
+    currentY += (targetY - currentY) * 0.15;
+
+    card.style.transform = `
+        perspective(900px)
+        rotateY(${currentX}deg)
+        rotateX(${-currentY}deg)
+        scale(1.03)
+    `;
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+</body>
+</html>
