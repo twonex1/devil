@@ -19,7 +19,7 @@ body{
     align-items:center;
 }
 
-/* 🔊 BOTÃO SOM (ZY0 STYLE) */
+
 .volume-container{
     position:fixed;
     top:18px;
@@ -183,7 +183,7 @@ body{
 <body>
 
 <audio id="bgMusic" loop preload="auto">
-<source src="Playboi Carti - ILoveUIHateU.mp3" type="audio/mpeg">
+<source src="ccg.mp3" type="audio/mpeg">
 </audio>
 
 <div class="volume-container">
@@ -191,11 +191,11 @@ body{
 </div>
 
 <div class="music-card">
-<img src="ILoveUIHateU cover.jpg" class="music-cover">
+<img src="CCL cover.jpg" class="music-cover">
 
 <div class="music-info">
-<span class="music-title">ILoveUIHateU</span>
-<span class="music-artist">Playboi Carti</span>
+<span class="music-title">CCL</span>
+<span class="music-artist">DIVIZA, Fernvnd, Lil Zé</span>
 </div>
 </div>
 
@@ -206,10 +206,10 @@ body{
 <div class="profile-card" id="card">
 <div class="profile-inner">
 
-<img src="https://i.pinimg.com/736x/ac/ae/4f/acae4fe7ab266c3f654883cf8274bd2a.jpg" class="avatar">
+<img src="artworks-vajzJQfUKvT4rx2O-LRdyGw-t1080x1080.jfif" class="avatar">
 
 <div class="name">twenty</div>
-<p class="bio">devil</p>
+<p class="bio"></p>
 
 <div class="social-icons">
 <ul>
@@ -217,7 +217,7 @@ body{
 <img src="https://ext.same-assets.com/1173006484/3083088712.png">
 </a></li>
 
-<li><a href="https://www.tiktok.com/@twentyonex1" target="_blank">
+<li><a href="https://www.tiktok.com/@twenty21px" target="_blank">
 <img src="https://ext.same-assets.com/1173006484/963775605.png">
 </a></li>
 
@@ -256,7 +256,7 @@ volumeBtn.innerHTML = iconOff;
 
 /* ⏱ COMEÇA EM 00:27 */
 window.addEventListener('load', ()=>{
-    music.currentTime = 27;
+    music.currentTime = 0;
     music.play().then(()=>{
         fadeIn(music);
         volumeBtn.innerHTML = iconOn;
@@ -289,7 +289,7 @@ volumeBtn.addEventListener('click', ()=>{
 });
 
 /* VIEWS */
-let views = localStorage.getItem('views') || 0;
+let views = localStorage.getItem('views') || 1002;
 views++;
 localStorage.setItem('views', views);
 document.getElementById('viewCount').innerText = views;
